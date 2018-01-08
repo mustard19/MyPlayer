@@ -171,7 +171,7 @@ extension MyPlayer {
     private func setupPlayer(ofURL url: NSURL, ofLocale isLoacle: Bool) {
         if !isLoacle {
             // 播放链接是网络资源链接
-            if MyFileManager.fileExist(ofPath: MyFileManager.savePath(ofUrlStr: url)) {
+            if MyFileManager.fileExist(ofURL: url) {
                 // 网络资源已经缓存到本地了
                 let playUrl = NSURL(fileURLWithPath: MyFileManager.savePath(ofUrlStr: url))
                 setURLAsset(ofURL: playUrl)
@@ -307,7 +307,7 @@ extension MyPlayer {
             if self.cacheProgress == 1.0 {
                 // 缓存文件
                 DispatchQueue.global().async(execute: {
-                    MyFileManager.saveAVAssetToLocale(ofAVAsset: (self.playerItem?.asset)!, ofURL: self.url!)
+                    MyFileManager.saveAVAssetToLocale(ofAsset: (self.playerItem?.asset)!, ofURL: self.url!)
                 })
             }
         }

@@ -6,7 +6,9 @@
 //  Copyright © 2017年 mustard. All rights reserved.
 //
 
+import Foundation.NSPathUtilities
 import Foundation.NSFileManager
+
 import AVFoundation
 
 /// 文件处理
@@ -27,7 +29,7 @@ class MyFileManager: NSObject {
         return dir!
     }
     
-    /// 保存路径
+    /// 保存路径(无后缀'.mp4')
     static func savePath(ofUrlStr url: NSURL) -> String {
         var path = saveDirectory()
         path.append("/")
@@ -37,17 +39,22 @@ class MyFileManager: NSObject {
     
     /// 文件名字(将URL进行MD5加密)
     static func fileName(ofUrlStr url: NSURL) -> String {
-        let name = (url.absoluteString?.MD5)! + ".\(url.pathExtension!)"
-//        print("name is \(name)")
+        let name = (url.absoluteString?.MD5)!
         return name
     }
     
     /// 文件路径是否已存在
-    static func fileExist(ofPath path: String) -> Bool {
-        if FileManager.default.fileExists(atPath: path) {
-            return true
+    static func fileExist(ofURL url: NSURL) -> Bool {
+        let save_dir = saveDirectory()
+        let files = try?  FileManager.default.contentsOfDirectory(atPath: save_dir)
+        var isExist = false
+        for str in files! {
+            if str.hasPrefix(fileName(ofUrlStr: url)) {
+                isExist = true
+                break
+            }
         }
-        return false
+        return isExist
     }
     
     /// 清理缓存文件
@@ -56,42 +63,61 @@ class MyFileManager: NSObject {
             // 连同文件夹清理
             try! FileManager.default.removeItem(atPath: saveDirectory())
             DispatchQueue.main.async(execute: {
-                print("缓存清理完毕。。")
+//                print("缓存清理完毕。。")
             })
         }
     }
 }
 
 extension MyFileManager {
-    /// 保存文件到本地
-    static func saveAVAssetToLocale(ofAVAsset asset: AVAsset, ofURL url: NSURL) {
-        let savePath: String = MyFileManager.savePath(ofUrlStr: url)
-        if MyFileManager.fileExist(ofPath: savePath) {
-//            print("该文件已经缓存过了。。。")
+    /// 判断是不是视频格式的链接
+    private static func isVideo(ofURL url: URL) -> Bool {
+        let pathExtension = url.pathExtension
+        if pathExtension == "mp3" || pathExtension == "m4a" || pathExtension == "wav" {
+            // 常见音频格式
+        } else {
+            return true
+        }
+        return false
+    }
+    /// 保存视频文件到本地
+    static func saveAVAssetToLocale(ofAsset asset: AVAsset, ofURL url: NSURL) {
+        let avasset: AVAsset? = asset
+        if avasset == nil {
             return
         }
-        
-        let fileUrl: NSURL = NSURL(fileURLWithPath: savePath)
-        
-        let avasset: AVAsset? = asset;
-        if avasset != nil  {
-            let mixComposition = AVMutableComposition()
-            // 视频画面轨道
-            let videoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid)
-            try! videoTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, asset.duration), of: asset.tracks(withMediaType: AVMediaType.video).first!, at: kCMTimeZero)
-            // 音频轨道
-            let audioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid)
-            try! audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, asset.duration), of: asset.tracks(withMediaType: AVMediaType.audio).first!, at: kCMTimeZero)
-            // 写入本地
-            let export = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality)
-            export?.outputURL = fileUrl as URL
-            if ((export?.supportedFileTypes) != nil) {
-                export?.outputFileType = export?.supportedFileTypes.first
-                export?.shouldOptimizeForNetworkUse = true
-            export?.exportAsynchronously(completionHandler: {
-//                  print("音视频合成文件保存成功")
-                })
-            }
+        // 检测文件是否已经存在
+        if MyFileManager.fileExist(ofURL: url) {
+            return
         }
+        // 设置后缀
+        let isvideo = isVideo(ofURL: url as URL)
+        var pathExtension = "."
+        if isvideo {
+            pathExtension.append("mp4")
+        } else {
+            pathExtension.append("m4a")
+        }
+        // 设置保存路径
+        var filePath: String = MyFileManager.savePath(ofUrlStr: url)
+        filePath.append(pathExtension)
+        // 本地文件URL
+        let fileUrl: NSURL = NSURL(fileURLWithPath: filePath)
+        // 写入本地
+        let presetName = isvideo ? AVAssetExportPresetMediumQuality : AVAssetExportPresetAppleM4A
+        let outFileType: AVFileType = isvideo ? .mp4 : .m4a
+        let export = AVAssetExportSession(asset: avasset!, presetName: presetName)
+        export?.outputURL = fileUrl as URL
+        export?.determineCompatibleFileTypes(completionHandler: { _  in
+            export?.outputFileType = outFileType
+            export?.shouldOptimizeForNetworkUse = true
+            export?.exportAsynchronously(completionHandler: {
+                if export?.status == .failed {
+                    print("file caches failed!")
+                } else if export?.status == .completed {
+                    print("file caches succeed!")
+                }
+            })
+        })
     }
 }
