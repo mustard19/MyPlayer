@@ -8,3 +8,4 @@
 
 
 #import <CommonCrypto/CommonDigest.h>
+#import "ResourceLoaderManager.h"

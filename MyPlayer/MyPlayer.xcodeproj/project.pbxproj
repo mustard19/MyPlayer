@@ -22,6 +22,10 @@
 		AD0284B81FF642BC007AF596 /* 列表分割线@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AD0284B01FF642BC007AF596 /* 列表分割线@2x.png */; };
 		AD0284B91FF642BC007AF596 /* 返回_黑色.png in Resources */ = {isa = PBXBuildFile; fileRef = AD0284B11FF642BC007AF596 /* 返回_黑色.png */; };
 		AD0284BB1FF642BC007AF596 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AD0284B41FF642BC007AF596 /* README.md */; };
+		ADE636D21FFF5696006EF76F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE636D01FFF5696006EF76F /* Foundation.framework */; };
+		ADE636D31FFF5696006EF76F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADE636D11FFF5696006EF76F /* AVFoundation.framework */; };
+		ADE636D91FFF655E006EF76F /* MyPlayerCommonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE636D81FFF655E006EF76F /* MyPlayerCommonFile.swift */; };
+		ADFD6FA12003133B0093A896 /* ResourceLoaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFD6FA02003133B0093A896 /* ResourceLoaderManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,9 +45,13 @@
 		AD0284A61FF642AE007AF596 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AD0284B01FF642BC007AF596 /* 列表分割线@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "列表分割线@2x.png"; sourceTree = "<group>"; };
 		AD0284B11FF642BC007AF596 /* 返回_黑色.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "返回_黑色.png"; sourceTree = "<group>"; };
-		AD0284B31FF642BC007AF596 /* MyPlayer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlayer_Prefix.pch; sourceTree = "<group>"; };
 		AD0284B41FF642BC007AF596 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AD0284B51FF642BC007AF596 /* Swift-Bridge-OC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Swift-Bridge-OC.h"; sourceTree = "<group>"; };
+		ADE636D01FFF5696006EF76F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		ADE636D11FFF5696006EF76F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		ADE636D81FFF655E006EF76F /* MyPlayerCommonFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlayerCommonFile.swift; sourceTree = "<group>"; };
+		ADFD6F9F2003133A0093A896 /* ResourceLoaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceLoaderManager.h; sourceTree = "<group>"; };
+		ADFD6FA02003133B0093A896 /* ResourceLoaderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceLoaderManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADE636D21FFF5696006EF76F /* Foundation.framework in Frameworks */,
+				ADE636D31FFF5696006EF76F /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +72,7 @@
 			children = (
 				AD0284821FF6411D007AF596 /* MyPlayer */,
 				AD0284811FF6411D007AF596 /* Products */,
+				ADE636CF1FFF5695006EF76F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +102,7 @@
 		AD0284951FF6421F007AF596 /* player */ = {
 			isa = PBXGroup;
 			children = (
+				ADFD6F9E200313240093A896 /* OC */,
 				AD0284961FF6421F007AF596 /* MyFileManager.swift */,
 				AD0284971FF6421F007AF596 /* MyPlayer.swift */,
 				AD0284981FF6421F007AF596 /* MyPlayerDelegate.swift */,
@@ -114,8 +126,8 @@
 				AD0284AF1FF642BC007AF596 /* images */,
 				AD02848C1FF6411D007AF596 /* LaunchScreen.storyboard */,
 				AD02848F1FF6411D007AF596 /* Info.plist */,
-				AD0284B31FF642BC007AF596 /* MyPlayer_Prefix.pch */,
 				AD0284B41FF642BC007AF596 /* README.md */,
+				ADE636D81FFF655E006EF76F /* MyPlayerCommonFile.swift */,
 				AD0284B51FF642BC007AF596 /* Swift-Bridge-OC.h */,
 			);
 			path = supports;
@@ -129,6 +141,25 @@
 			);
 			path = images;
 			sourceTree = "<group>";
+		};
+		ADE636CF1FFF5695006EF76F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADE636D11FFF5696006EF76F /* AVFoundation.framework */,
+				ADE636D01FFF5696006EF76F /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ADFD6F9E200313240093A896 /* OC */ = {
+			isa = PBXGroup;
+			children = (
+				ADFD6F9F2003133A0093A896 /* ResourceLoaderManager.h */,
+				ADFD6FA02003133B0093A896 /* ResourceLoaderManager.m */,
+			);
+			name = OC;
+			path = MyPlayer/OC;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -208,8 +239,10 @@
 				AD0284A91FF642AE007AF596 /* AppDelegate.swift in Sources */,
 				AD0284A21FF64231007AF596 /* UIView+extensions.swift in Sources */,
 				AD02849B1FF6421F007AF596 /* MyPlayer.swift in Sources */,
+				ADE636D91FFF655E006EF76F /* MyPlayerCommonFile.swift in Sources */,
 				AD0284AA1FF642AE007AF596 /* ViewController.swift in Sources */,
 				AD02849A1FF6421F007AF596 /* MyFileManager.swift in Sources */,
+				ADFD6FA12003133B0093A896 /* ResourceLoaderManager.m in Sources */,
 				AD0284A81FF642AE007AF596 /* MyPlayViewController.swift in Sources */,
 				AD02849C1FF6421F007AF596 /* MyPlayerDelegate.swift in Sources */,
 				AD0284A11FF64231007AF596 /* String+extensions.swift in Sources */,
